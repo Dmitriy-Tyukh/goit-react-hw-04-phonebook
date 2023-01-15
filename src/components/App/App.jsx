@@ -8,15 +8,9 @@ import Filter from 'components/Filter';
 
 const App = () => {
 
-    const [contacts, setContacts] = useState(defaultContacts);
+    const [contacts, setContacts] = useState(JSON.parse(localStorage.getItem('contacts')) || defaultContacts);
     const [filter, setFilter] = useState('')
 
-    useEffect(() => {
-        const localContacts = localStorage.getItem('contacts');
-        const parseContacts = JSON.parse(localContacts);
-        if (parseContacts){setContacts(parseContacts)}
-    },[]) 
-    
     useEffect(() => {
         localStorage.setItem('contacts', JSON.stringify(contacts));
     }, [contacts]) 
