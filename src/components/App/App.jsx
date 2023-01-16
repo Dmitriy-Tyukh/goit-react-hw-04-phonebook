@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { nanoid } from 'nanoid';
 import { Box } from './App.styled'
 import defaultContacts from 'dataJson/contacts.json';
@@ -19,11 +19,11 @@ const App = () => {
         setFilter(event.currentTarget.value);
   };
 
-    const filteredContacts = () => {
-        return contacts.filter(({ name }) =>
-            name.toLowerCase().includes(filter.toLowerCase())
-        )
-    };
+    const filteredContacts = useMemo(() => {
+      return contacts.filter(({ name }) =>
+        name.toLowerCase().includes(filter.toLowerCase())
+      );
+    }, [contacts, filter]);
 
     const handleDeleteContact = dataId => {
         return setContacts(contacts.filter(({ id }) => dataId !== id)) 
@@ -52,7 +52,7 @@ const App = () => {
 
         <h2>Contacts</h2>
         <Filter fiter={filter} onFiltContacts={handleFiltContacts} />
-        <ContactsList contacts={filteredContacts()} onDeleteContact={handleDeleteContact} />
+        <ContactsList contacts={filteredContacts} onDeleteContact={handleDeleteContact} />
       </Box>
     )
   }
